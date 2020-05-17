@@ -1,19 +1,50 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <b-container>
+      <Header />
+      <br>
+      <b-row>
+        <b-col>
+          <Search
+            :showMainType="main_type"
+            :api_url="api_url"
+          />
+        </b-col>
+      </b-row>
+    </b-container>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Header from './components/Header.vue'
+import Search from './components/Search'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    Header,
+    Search,
+  },
+  data(){
+    return {
+      main_type: {},
+      api_url: 'http://127.0.0.1:8000'
+    }
+  },
+  mounted() {
+    fetch(this.api_url+'/api/v1/main_types',{
+      method: 'get'
+    })
+    .then((response) => {
+      return response.json()
+    })
+    .then((jsonData) => {
+      this.main_type = jsonData.data
+    })
   }
 }
+
+console.log(process.env.API_URL)
 </script>
 
 <style>
