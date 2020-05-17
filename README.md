@@ -1,6 +1,6 @@
 # swivel_vue
 
-## This project with Laravel API 
+## Backe end API (Laravel) repository
 ```
 https://github.com/kanishkamaduranga/swivel
 ```
