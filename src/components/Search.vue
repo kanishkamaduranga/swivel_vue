@@ -48,21 +48,22 @@
             <b-col>
                 <div class="search-box-container">
                     <b-card title="Search Result" >
-                        <div class="result"
-                             v-if="searchResult.length">
-                            <label >Result count {{ searchResult.length }}</label>
-                            <b-button
-                                    @click="clearSearchResult()"
-                                    class="clear_result_btn"
-                                    variant="warning">
-                                Clear Search Result
-                            </b-button>
-                            <div class="clearfix"></div>
+                        <div v-if="searchResponse.status || searchResult.length ">
+                            <div class="result"
+                                 v-if="searchResult.length">
+                                <label >Result count {{ searchResult.length }}</label>
+                                <b-button
+                                        @click="clearSearchResult()"
+                                        class="clear_result_btn"
+                                        variant="warning">
+                                    Clear Search Result
+                                </b-button>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div v-else >
+                                No Result Found
+                            </div>
                         </div>
-                        <div v-else >
-                            No Result Found
-                        </div>
-
                         <hr class="my-4">
 
                         <div role="tablist">
@@ -122,6 +123,7 @@
                 }).then(function (response) {
                     console.log(response)
                     currentObj.searchResult = response.data.data;
+                    currentObj.searchResponse = response.data;
                 }).catch(function (error) {
                     currentObj.searchResult = error;
                 });
@@ -129,12 +131,14 @@
             },
             clearSearchResult(){
                 this.searchResult = {}
+                this.searchResponse = {}
             },
             resetMethod(){
                 this.main_types = null
                 this.fieldList = {}
                 this.field = null
                 this.keyword = ''
+                this.searchResponse = {}
             },
             selectField(){
                 this.keyword = ''
@@ -168,6 +172,7 @@
                 field: null,
                 fieldList: {},
                 searchResult:{},
+                searchResponse:{},
                 keyword: '',
                 result_counter: 0
             }
